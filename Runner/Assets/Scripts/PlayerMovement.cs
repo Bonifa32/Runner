@@ -5,22 +5,34 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D _rb;
-    private float _speed = 2f;
-    private Vector2 moveVector;
+
+    private GameObject _ground;
+    private bool _isJumpOn;
+    [SerializeField] private Vector3 _moveVector;
+    [SerializeField] private Vector3 _jumpVector;
+
     void Start()
     {
+        _isJumpOn = false;
         _rb = GetComponent<Rigidbody2D>();
     }
    
     void Update()
     {
         Movement();
+        Jump();
     }
 
     private void Movement()
     {
-        moveVector.x = Input.GetAxis("Horizontal");
-        moveVector.y = Input.GetAxis("Vertical");
-        _rb.MovePosition(_rb.position + moveVector * _speed * Time.deltaTime);
+        _rb.transform.position += _moveVector * Time.deltaTime;
+    }
+
+    private void Jump()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            _rb.transform.position += _jumpVector * Time.deltaTime;
+        }
     }
 }
